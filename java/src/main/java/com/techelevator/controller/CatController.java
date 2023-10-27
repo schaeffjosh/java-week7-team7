@@ -27,7 +27,7 @@ public class CatController {
     }
 
     @RequestMapping(path = "/random", method = RequestMethod.GET)
-    public CatCard getRandom(@RequestParam(required = false) boolean random) {
+    public CatCard getRandom() {
         CatCard newCatCard = new CatCard();
         newCatCard.setCatFact(catFactService.getFact().getText());
         newCatCard.setImgUrl(catPicService.getPic().getFile());
@@ -35,29 +35,29 @@ public class CatController {
     }
 
     @RequestMapping(path = "/{id}", method = RequestMethod.GET)
-    public CatCard getById(@PathVariable int id){
+    public CatCard get(@PathVariable int id){
         return catCardDao.getCatCardById(id);
     }
 
     @RequestMapping(path = "", method = RequestMethod.GET)
-    public List<CatCard> get(@PathVariable(required = false) int id, @RequestParam(required = false) boolean random) {
+    public List<CatCard> listAllCatCards() {
         return catCardDao.getCatCards();
     }
 
-    @RequestMapping(path = "", method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST)
     public CatCard addCatCard(@Valid @RequestBody CatCard catCard){
         return catCardDao.createCatCard(catCard);
     }
 
     @RequestMapping(path = "/{id}", method = RequestMethod.PUT)
-    public CatCard updateCatCard(@RequestBody CatCard catCard, @PathVariable int id){
+    public CatCard updateCatCard(@Valid @RequestBody CatCard catCard, @PathVariable int id){
         catCard.setCatCardId(id);
         try {
             CatCard updatedCatCard = catCardDao.updateCatCard(catCard);
             return updatedCatCard;
         }
         catch (DaoException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Reservation not found.");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "CatCard not found.");
         }
     }
 
