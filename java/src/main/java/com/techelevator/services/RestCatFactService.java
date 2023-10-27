@@ -1,5 +1,6 @@
 package com.techelevator.services;
 
+import com.techelevator.model.CatPic;
 import org.springframework.stereotype.Component;
 
 import com.techelevator.model.CatFact;
@@ -13,7 +14,7 @@ public class RestCatFactService implements CatFactService {
 
 	@Override
 	public CatFact getFact() {
-		return null;
+		return restTemplate.getForObject(API_URL, CatFact.class);
 	}
 
 }
